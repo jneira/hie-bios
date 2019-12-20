@@ -153,10 +153,23 @@ test-suite bios-tests
       filepath,
       directory,
       ghc
-
   hs-source-dirs: tests/
   ghc-options: -threaded -Wall
   main-is: BiosTests.hs
+
+test-suite func-tests
+  type: exitcode-stdio-1.0
+  default-language: Haskell2010
+  build-depends:
+      base,
+      tasty,
+      tasty-hunit,
+      hie-bios,
+      filepath,
+      directory
+  hs-source-dirs: tests/
+  ghc-options: -threaded -Wall
+  main-is: FuncTests.hs
 
 Source-Repository head
   Type:                 git
