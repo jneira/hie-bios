@@ -407,7 +407,7 @@ cabalCradle wdir mc =
             createDirectoryIfMissing True (buildDir </> "tmp")
             -- Need to pass -v0 otherwise we get "resolving dependencies..."
             readProcessWithCwd
-              wdir "cabal" (["--builddir="<>buildDir,"v2-exec", "ghc", "-v0", "--"] ++ args) ""
+              wdir "cabal" (["v2-exec", "ghc", "-v0", "--"] ++ args) ""
         }
     }
 
