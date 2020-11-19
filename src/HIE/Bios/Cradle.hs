@@ -406,9 +406,8 @@ cabalCradle wdir mc =
             -- ./dist-newstyle/tmp/environment.-24811: createDirectory: does not exist (No such file or directory)
             createDirectoryIfMissing True (buildDir </> "tmp")
             -- Need to pass -v0 otherwise we get "resolving dependencies..."
-            wrapper_fp <- withCabalWrapperTool ("ghc", []) wdir
             readProcessWithCwd
-              wdir "cabal" (["--builddir="<>buildDir,"v2-exec","--with-compiler", wrapper_fp, "ghc", "-v0", "--"] ++ args) ""
+              wdir "cabal" (["--builddir="<>buildDir,"v2-exec", "ghc", "-v0", "--"] ++ args) ""
         }
     }
 
