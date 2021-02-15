@@ -4,22 +4,32 @@
 module HIE.Bios.Ghc.Load ( loadFileWithMessage, loadFile, setTargetFiles, setTargetFilesWithMessage) where
 
 import GHC
+
 import qualified GHC as G
+#if __GLASGOW_HASKELL__ >= 900
+import qualified GHC.Driver.Make as G
+import qualified GHC.Driver.Main as G
+import GHC.Driver.Types
+import GHC.Driver.Hooks
+import GHC.Driver.Monad
+import GHC.Driver.Main
+import GHC.Tc.Types (FrontendResult(..))
+#else
 import qualified GhcMake as G
 import qualified HscMain as G
 import HscTypes
-import Control.Monad.IO.Class
-
-import Data.IORef
-
 import Hooks
-import TcRnTypes (FrontendResult(..))
-import Control.Monad (forM, void)
 import GhcMonad
 import HscMain
-import Data.List
+import TcRnTypes (FrontendResult(..))
+#endif
 
+import Control.Monad (forM, void)
+import Control.Monad.IO.Class
+import Data.IORef
+import Data.List
 import Data.Time.Clock
+
 import qualified HIE.Bios.Ghc.Gap as Gap
 import qualified HIE.Bios.Internal.Log as Log
 

@@ -1,11 +1,24 @@
+{-# LANGUAGE CPP #-}
 -- | Pretty printer utilities
 module HIE.Bios.Ghc.Doc where
 
 import GHC (DynFlags, getPrintUnqual, pprCols, GhcMonad)
-import Outputable (PprStyle, SDoc, withPprStyleDoc, neverQualify)
+
+#if __GLASGOW_HASKELL__ >= 900
+import GHC.Utils.Ppr (Mode(..), Doc, Style(..), renderStyle, style)
+import GHC.Utils.Outputable (PprStyle, SDoc, neverQualify, runSDoc)
+import GHC.Driver.Session (initSDocContext)
+#else
 import Pretty (Mode(..), Doc, Style(..), renderStyle, style)
+import Outputable (PprStyle, SDoc, withPprStyleDoc, neverQualify)
+#endif
 
 import HIE.Bios.Ghc.Gap (makeUserStyle)
+
+#if __GLASGOW_HASKELL__ >= 900
+withPprStyleDoc :: DynFlags -> PprStyle -> SDoc -> Doc
+withPprStyleDoc dflags sty d = runSDoc d (initSDocContext dflags sty)
+#endif
 
 showPage :: DynFlags -> PprStyle -> SDoc -> String
 showPage dflag stl = showDocWith dflag PageMode . withPprStyleDoc dflag stl
